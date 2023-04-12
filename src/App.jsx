@@ -1,22 +1,50 @@
-import { LuminoLayout } from "./libs/Lumino";
-import { LuminoWidget } from "./libs/Lumino";
+import { LuminoLayout, LuminoWidget } from "./libs/Lumino";
+
+// mock data
+import { models, widgets } from "./data";
 
 function App() {
 
   return (
-    <div className="App">
-      <LuminoLayout
-        layout={null}
-        onUpdate={layout => {
-          console.log('onUpdate: ', layout)
-        }}
-      >
-        <LuminoWidget>
-          <div>TestTestTestTest</div>
+    <>
+      {
+        Object.keys(models).map( workspace_id => {
+          return <LuminoLayout
+            key={`workspace-${workspace_id}`}
+            id={`workspace-${workspace_id}`}
+            hidden={false}
+            // layout={ workspace.layout?.orientation ? { main: workspace.layout } : null }
+            layout={ null }
+            onUpdate={ layout => {
+              console.log("??? update layout", layout);
+            } }
+          >
 
-        </LuminoWidget>
-      </LuminoLayout>
-    </div>
+            {
+              Object.keys(widgets).map( id => {
+                const widget = widgets[id];
+
+                return <LuminoWidget
+                  key={`workspace-${workspace_id}-${id}`}
+                  id={`workspace-${workspace_id}-${id}`}
+                  title="Widget Title"
+                  onDelete={ e => {
+                    e.preventDefault();
+                    console.log("??? handle delete");
+                  } }
+                >
+                  <span style={{color: "black"}}>
+                    Content: { JSON.stringify(widget) }
+                  </span>
+
+                </LuminoWidget>
+              }) 
+            }
+
+          </LuminoLayout>
+        })
+      }
+    </>
   )
 }
 
