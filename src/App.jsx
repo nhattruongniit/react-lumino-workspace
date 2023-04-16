@@ -9,6 +9,7 @@ function App() {
     <>
       <h1>Add too truong</h1>
       <h3>push lan 2</h3>
+      <h3>test merge</h3>
       {
         Object.keys(models).map( workspace_id => {
           return <LuminoLayout
